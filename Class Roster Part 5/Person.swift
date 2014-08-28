@@ -22,13 +22,17 @@ class Person : NSObject, NSCoding {
     required init (coder aDecoder: NSCoder!) {
         self.firstName = aDecoder.decodeObjectForKey("firstName") as String
         self.lastName = aDecoder.decodeObjectForKey("lastName") as String
-        self.photo = aDecoder.decodeObjectForKey("image") as? UIImage
+        if let myImage = aDecoder.decodeObjectForKey("photo") as? UIImage {
+            self.photo = myImage
+        }
     }
     
     func encodeWithCoder (aCoder: NSCoder!) {
         aCoder.encodeObject(self.firstName, forKey: "firstName")
         aCoder.encodeObject(self.lastName, forKey: "lastName")
-        aCoder.encodeObject(self.photo, forKey: "photo")
+        if self.photo != nil {
+            aCoder.encodeObject(self.photo!, forKey: "photo")
+        }
     }
     
     func fullName() -> String {

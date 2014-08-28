@@ -17,10 +17,8 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    //allow access to tableView properties throughout this code
     @IBOutlet weak var tableView: UITableView!
     
-    //create two empty arrays of Person class, one for students and one for teachers
     var studentArray = [Person]()
     var teacherArray = [Person]()
     var classArray = [[Person]]()
@@ -62,7 +60,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-        var people = NSKeyedArchiver.archiveRootObject(classArray, toFile: documentsPath + "/archive3")
+        NSKeyedArchiver.archiveRootObject(classArray, toFile: documentsPath + "/archive3")
         self.tableView.reloadData()
     }
     
@@ -81,12 +79,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         var arrayForSection = self.classArray[section]
         return arrayForSection.count
-        
-//        if section == 0 {
-//            return teacherArray.count
-//        } else {
-//            return studentArray.count
-//        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -114,6 +106,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if segue.identifier == "showPersonSegue" {
             let destination = segue.destinationViewController as DetailViewController
             destination.selectedPerson = classArray[indexPath.section][indexPath.row]
+            println(destination.selectedPerson)
         }
         
         if segue.identifier == "addNewPerson" {

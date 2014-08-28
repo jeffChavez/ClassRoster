@@ -59,11 +59,11 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
      //MARK: UIImagePickerController Delegate
     
     @IBAction func choosePhotoIsPressed(sender: AnyObject) {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary) == true {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) == true {
             var imagePickerController = UIImagePickerController()
             imagePickerController.delegate = self
             imagePickerController.allowsEditing = true
-            imagePickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            imagePickerController.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
             self.presentViewController(imagePickerController, animated: true, completion: nil)
         }
         else {
