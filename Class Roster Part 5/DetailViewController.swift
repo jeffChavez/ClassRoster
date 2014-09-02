@@ -81,10 +81,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             imagePickerController.sourceType = UIImagePickerControllerSourceType.SavedPhotosAlbum
             self.presentViewController(imagePickerController, animated: true, completion: nil)
         })
-        choosePhoto.addAction(UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.Destructive) { (UIAlertAction) -> Void in
-            self.photoImageView.image = UIImage (named: "placeholder.jpg")
-            self.selectedPerson!.photo  = nil
-        })
+        if self.selectedPerson?.photo != nil {
+            choosePhoto.addAction(UIAlertAction(title: "Delete Photo", style: UIAlertActionStyle.Destructive) { (UIAlertAction) -> Void in
+                self.photoImageView.image = UIImage (named: "placeholder.jpg")
+                self.selectedPerson!.photo  = nil
+            })
+        }
         choosePhoto.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler:nil))
         self.presentViewController(choosePhoto, animated: true, completion: nil)
     }
@@ -187,7 +189,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             self.title = "Add New Person"
         }
         else {
-            self.title = "\(selectedPerson!.fullName()) Details"
+            self.title = "\(selectedPerson!.fullName())"
         }
     }
     
