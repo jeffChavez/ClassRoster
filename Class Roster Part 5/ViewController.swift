@@ -17,19 +17,19 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
-    
     var studentArray = [Person]()
     var teacherArray = [Person]()
     var classArray = [[Person]]()
     var sectionTitles = ["Teachers", "Students"]
-    
+    var archive = "/archive4"
     let documentPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) [0] as String
+    
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let people = NSKeyedUnarchiver.unarchiveObjectWithFile(documentPath + "/archive4") as? [[Person]] {
+        if let people = NSKeyedUnarchiver.unarchiveObjectWithFile(documentPath + "\(archive)") as? [[Person]] {
             self.classArray = people
         }
         else {
@@ -40,15 +40,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 "Thueringer": "Heather", "Vu": "Tuan", "Walkingstick": "Zack", "Wong": "Sara", "Zhang": "Hongyao"]
             var teacherNames = ["Clem": "John", "Johnson": "Brad"]
             for (lastName, firstName) in studentNames {
-                
                 self.studentArray.append(Person(firstName: firstName, lastName: lastName))
             }
             for (lastName, firstName) in teacherNames {
-                
                 self.teacherArray.append(Person(firstName: firstName, lastName: lastName))
             }
             classArray = [teacherArray, studentArray]
-            NSKeyedArchiver.archiveRootObject(classArray, toFile: documentPath + "/archive4")
+            saveData()
         }
     }
     
@@ -56,12 +54,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidAppear(animated)
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.reloadData()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSKeyedArchiver.archiveRootObject(classArray, toFile: documentPath + "/archive4")
+        saveData()
         self.tableView.reloadData()
     }
     
@@ -73,14 +70,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         cell.textLabel.text = classArray[indexPath.section][indexPath.row].fullName()
-        cell.imageView.image = classArray[indexPath.section][indexPath.row].photo
         return cell
     }
     
     func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
-        
-        var arrayForSection = self.classArray[section]
-        return arrayForSection.count
+        return self.classArray[section].count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
@@ -99,7 +93,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if editingStyle == .Delete {
             classArray[indexPath.section].removeAtIndex(indexPath!.row)
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            NSKeyedArchiver.archiveRootObject(classArray, toFile: documentPath + "/archive4")
+            saveData()
         }
     }
     
@@ -119,5 +113,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             students.append(destination.selectedPerson!)
             self.classArray[1] = students
         }
+    }
+    
+    func saveData() {
+        NSKeyedArchiver.archiveRootObject(classArray, toFile: documentPath + "\(archive)")
     }
 }

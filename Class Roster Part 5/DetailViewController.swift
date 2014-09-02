@@ -5,13 +5,17 @@
 //  Created by Jeff Chavez on 8/23/14.
 //  Copyright (c) 2014 Jeff Chavez. All rights reserved.
 //
+/* Questions:
+    - Why can't I put a function inside of handler: instead of a closure?
+    - How come in alertTextField = textField I don't need .text parameters?
+    - How do I save from within DetailViewController? Currently the only way to save is to go back to ViewController because viewWillAppear is being called which has NSKeyedArchiver inside of it
+*/
 
 import UIKit
 
 class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate {
     
     var selectedPerson : Person?
-    var imageDownloadQueue = NSOperationQueue()
     
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var firstNameTextField: UITextField!
@@ -24,55 +28,34 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         super.viewDidLoad()
         self.firstNameTextField.delegate = self
         self.lastNameTextField.delegate = self
-        if self.selectedPerson?.photo != nil {
-            self.photoImageView.image = self.selectedPerson?.photo
-        }
-        else {
-            self.photoImageView.image = UIImage (named: "placeholder.jpg")
-        }
-        if self.selectedPerson?.gitHubPhoto != nil {
-            self.gitHubPhotoImageView.image = self.selectedPerson?.gitHubPhoto
-        }
-        else {
-            self.gitHubPhotoImageView.image = UIImage (named: "gitHubDefault")
-        }
-        self.photoImageView.layer.cornerRadius = 100.0
-        self.photoImageView.layer.masksToBounds = true
-        self.photoImageView.layer.borderWidth = 0.5
-        
-        self.gitHubPhotoImageView.layer.cornerRadius = 1
-        self.gitHubPhotoImageView.layer.masksToBounds = true
-        self.gitHubPhotoImageView.layer.borderWidth = 0.5
+        decideToDisplayPlaceholderImages()
+        applyImageViewStyles()
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        firstNameTextField.text = selectedPerson?.firstName
-        lastNameTextField.text = selectedPerson?.lastName
-        gitHubUserNameTextField.text = selectedPerson?.gitHubUserName
-        self.title = "Person Details"
+
+    override func viewWillAppear(animated: Bool) {
+        fillInTextFields()
+        decideTextForTitleBar()
     }
-    
+
     override func viewWillDisappear(animated: Bool) {
         self.selectedPerson?.firstName = firstNameTextField.text
         self.selectedPerson?.lastName = lastNameTextField.text
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
+
+    override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+        self.view.endEditing(true)
+    }
+
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
-    override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
-        self.view.endEditing(true)
-    }
-    
-     //MARK: UIImagePickerController Delegate
 
+    //MARK: UIImagePickerController Delegate
     @IBAction func choosePhotoIsPressed (sender: AnyObject) {
         var choosePhoto = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
         choosePhoto.addAction(UIAlertAction(title: "Take Photo", style: UIAlertActionStyle.Default) { (UIAlertAction) -> Void in
@@ -108,8 +91,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]!) {
         picker.dismissViewControllerAnimated(true, completion: nil)
-        
-        //gets fired when the image picker is done
         var editedImage = info[UIImagePickerControllerEditedImage] as UIImage
         self.photoImageView.image = editedImage
         self.selectedPerson!.photo = editedImage
@@ -136,6 +117,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         self.presentViewController(enterGitHubInfo, animated: true, completion: nil)
     }
     
+    var imageDownloadQueue = NSOperationQueue()
     func getGitHubProfilePhoto (searchUsername: String) -> Void {
         self.gitHubActivityIndicator.startAnimating()
         let gitHubURL = NSURL (string: "https://api.github.com/users/\(searchUsername)")
@@ -173,5 +155,45 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             })
             task.resume()
         }
+    }
+    //MARK: Misc Functions
+    func decideToDisplayPlaceholderImages() {
+        if self.selectedPerson?.photo != nil {
+            self.photoImageView.image = self.selectedPerson?.photo
+        }
+        else {
+            self.photoImageView.image = UIImage (named: "placeholder.jpg")
+        }
+        if self.selectedPerson?.gitHubPhoto != nil {
+            self.gitHubPhotoImageView.image = self.selectedPerson?.gitHubPhoto
+        }
+        else {
+            self.gitHubPhotoImageView.image = UIImage (named: "gitHubDefault")
+        }
+    }
+    
+    func applyImageViewStyles() {
+        self.photoImageView.layer.cornerRadius = 100.0
+        self.photoImageView.layer.masksToBounds = true
+        self.photoImageView.layer.borderWidth = 0.5
+        
+        self.gitHubPhotoImageView.layer.cornerRadius = 3
+        self.gitHubPhotoImageView.layer.masksToBounds = true
+        self.gitHubPhotoImageView.layer.borderWidth = 0.5
+    }
+    
+    func decideTextForTitleBar() {
+        if firstNameTextField.text == "" && lastNameTextField.text == "" {
+            self.title = "Add New Person"
+        }
+        else {
+            self.title = "\(selectedPerson!.fullName()) Details"
+        }
+    }
+    
+    func fillInTextFields() {
+        firstNameTextField.text = selectedPerson?.firstName
+        lastNameTextField.text = selectedPerson?.lastName
+        gitHubUserNameTextField.text = selectedPerson?.gitHubUserName
     }
 }

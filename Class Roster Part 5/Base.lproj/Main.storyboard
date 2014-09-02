@@ -178,6 +178,8 @@
                             <constraint firstItem="Lam-Ee-vuv" firstAttribute="trailing" secondItem="7J1-uK-Oeu" secondAttribute="trailing" id="zTp-uC-cBW"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="firstNameTextField" destination="8uz-kC-96n" id="UIn-am-AMQ"/>
                         <outlet property="gitHubActivityIndicator" destination="ifg-mT-uu3" id="5Jx-cF-lYL"/>
