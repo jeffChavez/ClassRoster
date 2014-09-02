@@ -24,10 +24,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var classArray = [[Person]]()
     var sectionTitles = ["Teachers", "Students"]
     
+    let documentPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) [0] as String
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let documentPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) [0] as String
-        if let people = NSKeyedUnarchiver.unarchiveObjectWithFile(documentPath + "/archive3") as? [[Person]] {
+        
+        if let people = NSKeyedUnarchiver.unarchiveObjectWithFile(documentPath + "/archive4") as? [[Person]] {
             self.classArray = people
         }
         else {
@@ -46,7 +48,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.teacherArray.append(Person(firstName: firstName, lastName: lastName))
             }
             classArray = [teacherArray, studentArray]
-            NSKeyedArchiver.archiveRootObject(classArray, toFile: documentPath + "/archive3")
+            NSKeyedArchiver.archiveRootObject(classArray, toFile: documentPath + "/archive4")
         }
     }
     
@@ -59,8 +61,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-        NSKeyedArchiver.archiveRootObject(classArray, toFile: documentsPath + "/archive3")
+        NSKeyedArchiver.archiveRootObject(classArray, toFile: documentPath + "/archive4")
         self.tableView.reloadData()
     }
     
@@ -72,6 +73,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
         var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         cell.textLabel.text = classArray[indexPath.section][indexPath.row].fullName()
+        cell.imageView.image = classArray[indexPath.section][indexPath.row].photo
         return cell
     }
     
@@ -97,6 +99,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if editingStyle == .Delete {
             classArray[indexPath.section].removeAtIndex(indexPath!.row)
             tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+            NSKeyedArchiver.archiveRootObject(classArray, toFile: documentPath + "/archive4")
         }
     }
     

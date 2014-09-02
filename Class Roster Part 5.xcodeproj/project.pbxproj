@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B21B6C419B2DC8000836296 /* gitHubDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B21B6C319B2DC8000836296 /* gitHubDefault.png */; };
+		6B21B6C619B2E5E700836296 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 6B21B6C519B2E5E700836296 /* TODO */; };
 		6B7D8F6C19A95665006A0381 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7D8F6B19A95665006A0381 /* AppDelegate.swift */; };
 		6B7D8F6E19A95665006A0381 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B7D8F6D19A95665006A0381 /* ViewController.swift */; };
 		6B7D8F7119A95665006A0381 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B7D8F6F19A95665006A0381 /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B21B6C319B2DC8000836296 /* gitHubDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gitHubDefault.png; sourceTree = SOURCE_ROOT; };
+		6B21B6C519B2E5E700836296 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		6B7D8F6619A95665006A0381 /* Class Roster Part 5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Class Roster Part 5.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B7D8F6A19A95665006A0381 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B7D8F6B19A95665006A0381 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +67,7 @@
 		6B7D8F5D19A95665006A0381 = {
 			isa = PBXGroup;
 			children = (
+				6B21B6C519B2E5E700836296 /* TODO */,
 				6B7D8F6819A95665006A0381 /* Class Roster Part 5 */,
 				6B7D8F7B19A95665006A0381 /* Class Roster Part 5Tests */,
 				6B7D8F6719A95665006A0381 /* Products */,
@@ -86,7 +91,6 @@
 				6B7D8F8819A9584A006A0381 /* DetailViewController.swift */,
 				6B7D8F8A19A958C6006A0381 /* Person.swift */,
 				6B7D8F6F19A95665006A0381 /* Main.storyboard */,
-				6B7D8F8C19A96FA6006A0381 /* placeholder.jpg */,
 				6B7D8F7219A95665006A0381 /* Images.xcassets */,
 				6B7D8F6919A95665006A0381 /* Supporting Files */,
 			);
@@ -96,6 +100,8 @@
 		6B7D8F6919A95665006A0381 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6B7D8F8C19A96FA6006A0381 /* placeholder.jpg */,
+				6B21B6C319B2DC8000836296 /* gitHubDefault.png */,
 				6B7D8F6A19A95665006A0381 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -198,6 +204,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B21B6C619B2E5E700836296 /* TODO in Resources */,
+				6B21B6C419B2DC8000836296 /* gitHubDefault.png in Resources */,
 				6B7D8F7119A95665006A0381 /* Main.storyboard in Resources */,
 				6B7D8F8D19A96FA6006A0381 /* placeholder.jpg in Resources */,
 				6B7D8F7319A95665006A0381 /* Images.xcassets in Resources */,
@@ -409,6 +417,7 @@
 				6B7D8F8419A95665006A0381 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6B7D8F8519A95665006A0381 /* Build configuration list for PBXNativeTarget "Class Roster Part 5Tests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +426,7 @@
 				6B7D8F8719A95665006A0381 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

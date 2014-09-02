@@ -13,6 +13,8 @@ class Person : NSObject, NSCoding {
     var firstName : String
     var lastName : String
     var photo : UIImage?
+    var gitHubUserName : String?
+    var gitHubPhoto: UIImage?
     
     init (firstName : String, lastName : String) {
         self.firstName = firstName
@@ -25,6 +27,10 @@ class Person : NSObject, NSCoding {
         if let myImage = aDecoder.decodeObjectForKey("photo") as? UIImage {
             self.photo = myImage
         }
+        self.gitHubUserName = aDecoder.decodeObjectForKey("gitHubUserName") as String?
+        if let myGitHubPhoto = aDecoder.decodeObjectForKey("gitHubPhoto") as? UIImage {
+            self.gitHubPhoto = myGitHubPhoto
+        }
     }
     
     func encodeWithCoder (aCoder: NSCoder!) {
@@ -32,6 +38,10 @@ class Person : NSObject, NSCoding {
         aCoder.encodeObject(self.lastName, forKey: "lastName")
         if self.photo != nil {
             aCoder.encodeObject(self.photo!, forKey: "photo")
+        }
+        aCoder.encodeObject(self.gitHubUserName, forKey:"gitHubUserName")
+        if self.gitHubPhoto != nil {
+            aCoder.encodeObject(self.gitHubPhoto!, forKey:"gitHubPhoto")
         }
     }
     
