@@ -144,12 +144,12 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             let session = NSURLSession.sharedSession()
             let task = session.dataTaskWithURL(gitHubURL, completionHandler: { (data, response, error) -> Void in
                 if error != nil {
-                    println("error")
+                    println("error1")
                 }
                 var err: NSError?
                 var jsonResult = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: &err) as NSDictionary
                 if err != nil {
-                    println("errorjson")
+                    println("error2")
                 }
                 if let avatarURL = jsonResult["avatar_url"] as? String {
                     profilePhotoURL = NSURL(string: avatarURL)
