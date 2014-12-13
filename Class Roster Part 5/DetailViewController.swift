@@ -13,7 +13,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate {
+class DetailViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIAlertViewDelegate {
     
     var selectedPerson : Person?
     
@@ -26,8 +26,6 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.firstNameTextField.delegate = self
-        self.lastNameTextField.delegate = self
         decideToDisplayPlaceholderImages()
         applyImageViewStyles()
     }
@@ -46,7 +44,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         super.didReceiveMemoryWarning()
     }
 
-    override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         self.view.endEditing(true)
     }
 
@@ -126,7 +124,7 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
         var profilePhotoURL = NSURL()
         self.imageDownloadQueue.addOperationWithBlock { () -> Void in
             let session = NSURLSession.sharedSession()
-            let task = session.dataTaskWithURL(gitHubURL, completionHandler: { (data, response, error) -> Void in
+            let task = session.dataTaskWithURL(gitHubURL!, completionHandler: { (data, response, error) -> Void in
                 if error != nil {
                     println("error1")
                 }
@@ -136,10 +134,10 @@ class DetailViewController: UIViewController, UITextFieldDelegate, UIImagePicker
                     println("error2")
                 }
                 if let avatarURL = jsonResult["avatar_url"] as? String {
-                    profilePhotoURL = NSURL(string: avatarURL)
+                    profilePhotoURL = NSURL(string: avatarURL)!
                 }
                 var profilePhotoData = NSData(contentsOfURL: profilePhotoURL)
-                var profilePhotoImage = UIImage (data: profilePhotoData)
+                var profilePhotoImage = UIImage (data: profilePhotoData!)
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     self.gitHubPhotoImageView.image = profilePhotoImage
                     self.selectedPerson!.gitHubPhoto = profilePhotoImage

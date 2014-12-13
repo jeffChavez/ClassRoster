@@ -67,13 +67,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     //Mark: UITableViewDataSource
-    func tableView(tableView: UITableView!, cellForRowAtIndexPath indexPath: NSIndexPath!) -> UITableViewCell! {
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
-        cell.textLabel.text = classArray[indexPath.section][indexPath.row].fullName()
+        cell.textLabel!.text = classArray[indexPath.section][indexPath.row].fullName()
         return cell
     }
     
-    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.classArray[section].count
     }
     
@@ -98,11 +99,11 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     //Mark: Segue
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         let indexPath = self.tableView.indexPathForSelectedRow()
         if segue.identifier == "showPersonSegue" {
             let destination = segue.destinationViewController as DetailViewController
-            destination.selectedPerson = classArray[indexPath.section][indexPath.row]
+            destination.selectedPerson = classArray[indexPath!.section][indexPath!.row]
             println(destination.selectedPerson)
         }
         
