@@ -21,7 +21,7 @@ class Person : NSObject, NSCoding {
         self.lastName = lastName
     }
     
-    required init (coder aDecoder: NSCoder!) {
+    required init (coder aDecoder: NSCoder) {
         self.firstName = aDecoder.decodeObjectForKey("firstName") as String
         self.lastName = aDecoder.decodeObjectForKey("lastName") as String
         if let myImage = aDecoder.decodeObjectForKey("photo") as? UIImage {
@@ -33,7 +33,7 @@ class Person : NSObject, NSCoding {
         }
     }
     
-    func encodeWithCoder (aCoder: NSCoder!) {
+    func encodeWithCoder (aCoder: NSCoder) {
         aCoder.encodeObject(self.firstName, forKey: "firstName")
         aCoder.encodeObject(self.lastName, forKey: "lastName")
         if self.photo != nil {
